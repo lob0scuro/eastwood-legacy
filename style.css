@@ -82,3 +82,13 @@ form button[type="submit"]:hover {
 form button[type="submit"]:active {
   box-shadow: 0 0 2px #000;
 }
+
+@media screen and (max-width: 450px) {
+  h1 {
+    font-size: 18px;
+  }
+
+  form {
+    width: 80%;
+  }
+}
