@@ -1,3 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap");
+
+:root {
+  --black: #170f0f;
+  --blue: #55637e;
+  --brown: #91887d;
+  --white: #e7e8e9;
+  --gold: #e8d4b8;
+  --deepGold: #c6995b;
+
+  --mainFont: "Bitter", serif;
+  --secondaryFont: "Cardo", serif;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,16 +29,16 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: var(--mainFont);
 }
 
 h1 {
   margin-top: 0.8rem;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: var(--secondaryFont);
 }
 
 h1 span {
-  color: goldenrod;
+  color: var(--deepGold);
 }
 
 form {
@@ -33,13 +47,12 @@ form {
   flex-direction: column;
   gap: 1.2rem;
   align-items: center;
-  /* border: 1px solid black; */
   padding: 1rem;
   border-radius: 12px;
-  box-shadow: -4px 4px 6px #888;
+  box-shadow: 0 4px 6px #888;
   width: 60vw;
-  background-color: #778;
-  color: #f9f9f9;
+  background-color: var(--brown);
+  color: var(--white);
 }
 
 form div {
@@ -51,32 +64,53 @@ form div {
 }
 
 form > h3 {
-  font-size: 14px;
+  font-size: 16px;
   font-style: italic;
   font-weight: 100;
 }
 
 form div input {
   height: 32px;
+  width: fit-content;
   border-radius: 8px;
   border: none;
   font-size: 18px;
   padding-left: 5px;
 }
 
+#upload-label {
+  align-self: flex-start;
+  background-color: var(--deepGold);
+  color: var(--black);
+  width: fit-content;
+  cursor: pointer;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: 8px;
+  box-shadow: -2px 2px 8px var(--black);
+  font-weight: 700;
+}
+#upload-label:hover {
+  background-color: var(--gold);
+}
+
+input#photo {
+  display: none;
+}
+
 form button[type="submit"] {
   padding: 0.6rem 2.8rem;
   border-radius: 8px;
   border: none;
-  background-color: #557;
-  color: #f9f9f9;
+  background-color: var(--black);
+  color: var(--white);
   font-size: 22px;
   font-weight: 700;
   box-shadow: -1px 2px 4px #000;
 }
 
 form button[type="submit"]:hover {
-  background-color: #558;
+  background-color: #333;
 }
 
 form button[type="submit"]:active {
