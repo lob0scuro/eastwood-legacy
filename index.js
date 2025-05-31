@@ -78,3 +78,34 @@ function renderPreviews() {
     reader.readAsDataURL(file);
   });
 }
+
+document.querySelector("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const name = document.querySelector('input[name="name"]').value;
+  const fileInput = document.querySelector('input[type="file"]');
+  const files = fileInput.files;
+
+  const fileData = await Promise.all(
+    [...files].map(async (file) => {
+      const buffer = await file.arrayBuffer();
+      return {
+        filename: file.name,
+        content: btoa(String.fromCharCode(...new Uint8Array(buffer))),
+      };
+    })
+  );
+
+  const result = await fetch("./netlify/functions/upload", {
+    methos: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, files: fileData }),
+  });
+
+  if (result.ok) {
+    alert("Upload Successful");
+    fileInput.value = "";
+  } else {
+    alert("Upload failed, please try again.");
+  }
+});

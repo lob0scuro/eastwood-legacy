@@ -1,0 +1,23 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Serverless Functions build cache
+.netlify/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local env files (if any)
+.env
+.env.local
+
+# Optional: VS Code settings
+.vscode/
+

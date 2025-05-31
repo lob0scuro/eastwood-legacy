@@ -1,0 +1,24 @@
+{
+  "name": "legacy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lob0scuro/eastwood-legacy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lob0scuro/eastwood-legacy/issues"
+  },
+  "homepage": "https://github.com/lob0scuro/eastwood-legacy#readme",
+  "description": "",
+  "dependencies": {
+    "@netlify/functions": "^4.0.0",
+    "dropbox": "^10.34.0"
+  }
+}
