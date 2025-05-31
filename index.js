@@ -86,6 +86,16 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   const fileInput = document.querySelector('input[type="file"]');
   const files = fileInput.files;
 
+  if (!name) {
+    alert("Please enter your name.");
+    return;
+  }
+
+  if (files.length === 0) {
+    alert("Please select at least one file to upload.");
+    return;
+  }
+
   const fileData = await Promise.all(
     [...files].map(async (file) => {
       const buffer = await file.arrayBuffer();
