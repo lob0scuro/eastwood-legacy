@@ -79,6 +79,13 @@ function renderPreviews() {
   });
 }
 
+const infoHeader = document.getElementById("info-header");
+const infoDiv = document.getElementById("info");
+
+infoHeader.addEventListener("click", () => {
+  infoDiv.classList.toggle("hidden");
+});
+
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 

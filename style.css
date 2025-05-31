@@ -78,6 +78,19 @@ form div input {
   padding-left: 5px;
 }
 
+h3#info-header {
+  font-size: 24px;
+  font-weight: 400;
+}
+h3#info-header span {
+  text-decoration: underline;
+  color: var(--gold);
+}
+
+.hidden {
+  display: none;
+}
+
 #upload-label {
   align-self: flex-start;
   background-color: var(--deepGold);
