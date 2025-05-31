@@ -1,5 +1,4 @@
-const { Dropbox } = require("dropbox");
-const { config } = require("@netlify/functions");
+import { Dropbox } from "dropbox";
 
 export const handler = async (event) => {
   if (event.httpMethod !== "POST") {
