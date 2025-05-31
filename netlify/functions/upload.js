@@ -11,7 +11,7 @@ export const handler = async (event) => {
     return { statusCode: 400, body: "No files were uploaded" };
   }
 
-  const dbx = new Dropbox({ accessToken: "9ho71a5kv2vrydi" });
+  const dbx = new Dropbox({ accessToken: process.env.DROPBOX_TOKEN });
 
   try {
     for (let file of files) {
