@@ -16,6 +16,15 @@
         <input type="text" name="name" placeholder="Enter your name..." />
       </div>
       <div>
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Enter email address..."
+        />
+      </div>
+      <div>
         <label for="photo" id="upload-label">Upload Photos</label>
         <input
           type="file"
@@ -25,31 +34,6 @@
           multiple
           required
         />
-      </div>
-      <h3 id="info-header" style="cursor: pointer">
-        <span>Add</span> Photo Information
-      </h3>
-
-      <div id="info" class="hidden">
-        <div>
-          <label for="photo-info">Who is included in this photo?</label>
-          <input type="text" name="photo-info" id="photo-info" />
-        </div>
-        <div>
-          <label for="photo-place">Where was it taken?</label>
-          <input type="text" name="photo-place" id="photo-place" />
-        </div>
-        <div>
-          <label for="photo-year">Year the photo was taken</label>
-          <input
-            type="number"
-            name="photo-year"
-            id="photo-year"
-            min="1900"
-            max="2099"
-            step="1"
-          />
-        </div>
       </div>
 
       <div
