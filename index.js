@@ -91,13 +91,13 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     return;
   }
 
-  if (files.length === 0) {
+  if (allFiles.length === 0) {
     alert("Please select at least one file to upload.");
     return;
   }
 
   const fileData = await Promise.all(
-    [...files].map(async (file) => {
+    allFiles.map(async (file) => {
       const buffer = await file.arrayBuffer();
       return {
         filename: file.name,
@@ -107,7 +107,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   );
 
   const result = await fetch("./netlify/functions/upload", {
-    methos: "POST",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, files: fileData }),
   });
