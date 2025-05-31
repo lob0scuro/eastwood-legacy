@@ -84,7 +84,6 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
   const name = document.querySelector('input[name="name"]').value;
   const fileInput = document.querySelector('input[type="file"]');
-  const files = fileInput.files;
 
   if (!name) {
     alert("Please enter your name.");
@@ -112,10 +111,12 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     body: JSON.stringify({ name, files: fileData }),
   });
 
+  const data = await result.json();
+
   if (result.ok) {
     alert("Upload Successful");
     fileInput.value = "";
   } else {
-    alert("Upload failed, please try again foo.");
+    alert("Uplaod failed.");
   }
 });
