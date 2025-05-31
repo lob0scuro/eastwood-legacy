@@ -106,11 +106,14 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     })
   );
 
-  const result = await fetch("./netlify/functions/upload", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, files: fileData }),
-  });
+  const result = await fetch(
+    "https://eastwoodlegacy.netlify.app/.netlify/functions/upload",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, files: fileData }),
+    }
+  );
 
   if (result.ok) {
     alert("Upload Successful");
