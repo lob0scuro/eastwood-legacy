@@ -1,129 +1,102 @@
 let allFiles = [];
 
-document.getElementById("photo").addEventListener("change", function (event) {
-  const newFiles = Array.from(event.target.files);
+const fileUpload = document.getElementById("photo");
+const preview = document.getElementById("preview");
 
-  // Add new files while avoiding duplicates (by name + size)
-  newFiles.forEach((file) => {
-    const exists = allFiles.some(
-      (f) => f.name === file.name && f.size === file.size
-    );
-    if (!exists) {
-      allFiles.push(file);
-    }
-  });
-
-  renderPreviews();
-  event.target.value = ""; // Clear input so same file can be reselected
-});
-
-function renderPreviews() {
-  const preview = document.getElementById("preview");
-  preview.innerHTML = "";
-
-  allFiles.forEach((file, index) => {
-    const fileType = file.type;
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-      const container = document.createElement("div");
-      container.style.position = "relative";
-      container.style.display = "inline-block";
-
-      let element;
-
-      if (fileType.startsWith("image/")) {
-        element = document.createElement("img");
-        element.src = e.target.result;
-        element.style.width = "120px";
-        element.style.height = "auto";
-      } else if (fileType.startsWith("video/")) {
-        element = document.createElement("video");
-        element.src = e.target.result;
-        element.controls = true;
-        element.style.width = "160px";
-        element.style.height = "auto";
-      }
-
-      if (element) {
-        element.style.border = "1px solid #ccc";
-        element.style.borderRadius = "4px";
-        element.style.display = "block";
-        container.appendChild(element);
-      }
-
-      // Add remove button
-      const removeBtn = document.createElement("button");
-      removeBtn.textContent = "✖";
-      removeBtn.style.position = "absolute";
-      removeBtn.style.top = "5px";
-      removeBtn.style.right = "5px";
-      removeBtn.style.background = "rgba(0, 0, 0, 0.7)";
-      removeBtn.style.color = "white";
-      removeBtn.style.border = "none";
-      removeBtn.style.borderRadius = "50%";
-      removeBtn.style.width = "24px";
-      removeBtn.style.height = "24px";
-      removeBtn.style.cursor = "pointer";
-
-      removeBtn.addEventListener("click", () => {
-        allFiles.splice(index, 1); // Remove file from array
-        renderPreviews(); // Re-render
+fileUpload.addEventListener("change", (event) => {
+  const files = event.target.files;
+  for (const file of files) {
+    allFiles.push(file);
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      const wrapper = document.createElement("div");
+      wrapper.style.display = "flex";
+      wrapper.style.flexDirection = "column";
+      wrapper.style.alignItems = "flex-start";
+      wrapper.style.margin = "0.5rem";
+      const imageItemWrapper = document.createElement("div");
+      imageItemWrapper.style.display = "flex";
+      imageItemWrapper.style.flexDirection = "row";
+      imageItemWrapper.style.alignItems = "center";
+      const image = document.createElement("img");
+      image.style.maxWidth = "150px";
+      const button = document.createElement("button");
+      button.textContent = "✕";
+      button.style.backgroundColor = "#831313";
+      button.style.color = "#f9f9f9";
+      button.style.borderRadius = "8px";
+      button.style.width = "24px";
+      button.style.height = "24px";
+      button.addEventListener("click", () => {
+        allFiles = allFiles.filter((f) => f !== file);
+        preview.removeChild(wrapper);
       });
 
-      container.appendChild(removeBtn);
-      preview.appendChild(container);
-    };
+      reader.onload = (e) => {
+        image.src = e.target.result;
+      };
 
-    reader.readAsDataURL(file);
-  });
-}
+      reader.readAsDataURL(file);
 
-const infoHeader = document.getElementById("info-header");
-const infoDiv = document.getElementById("info");
-
-infoHeader.addEventListener("click", () => {
-  infoDiv.classList.toggle("hidden");
+      wrapper.appendChild(imageItemWrapper);
+      imageItemWrapper.appendChild(image);
+      imageItemWrapper.appendChild(button);
+      preview.appendChild(wrapper);
+    }
+  }
 });
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  console.log(allFiles);
+
   const name = document.querySelector('input[name="name"]').value;
-  const fileInput = document.querySelector('input[type="file"]');
+  const email = document.querySelector('input[type="email"]').value;
 
   if (!name) {
-    alert("Please enter your name.");
+    alert("Please enter your name so we can know who sent in this photo.");
     return;
   }
 
-  if (allFiles.length === 0) {
-    alert("Please select at least one file to upload.");
-    return;
-  }
+  const files = await Promise.all(
+    allFiles.map((file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
 
-  const fileData = await Promise.all(
-    allFiles.map(async (file) => {
-      const buffer = await file.arrayBuffer();
-      return {
-        filename: file.name,
-        content: btoa(String.fromCharCode(...new Uint8Array(buffer))),
-      };
+        reader.onload = () => {
+          const base64 = reader.result.split(",")[1];
+          resolve({
+            filename: file.name,
+            content: base64,
+            type: file.type,
+          });
+        };
+
+        reader.onerror = reject;
+
+        reader.readAsDataURL(file);
+      });
     })
   );
 
-  const result = await fetch("/.netlify/functions/upload", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, files: fileData }),
-  });
+  try {
+    const result = await fetch("/.netlify/functions/upload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, files }),
+    });
 
-  if (result.ok) {
-    alert("Upload Successful");
-    fileInput.value = "";
-    allFiles = [];
-    window.location.href = "success.html";
-  } else {
-    alert("Upload failed.");
+    if (result.ok) {
+      allFiles = [];
+      window.location.href = "success.html";
+    } else {
+      alert("Upload failed, please try again.");
+    }
+  } catch (error) {
+    alert("An error occured during upload. Please try again.");
+    console.error(error);
   }
 });
