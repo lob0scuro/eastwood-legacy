@@ -12,12 +12,45 @@ export const handler = async (event) => {
     return { statusCode: 400, body: "No files were uploaded" };
   }
 
-  const dbx = new Dropbox({
-    clientId: process.env.DROPBOX_APP_KEY,
-    clientSecret: process.env.DROPBOX_APP_SECRET,
-    refreshToken: process.env.DROPBOX_REFRESH_TOKEN,
-    fetch,
-  });
+  let accessToken = "";
+  try {
+    const tokenRes = await fetch("https://api.dropbox.com/oauth2/token", {
+      method: "POST",
+      headers: {
+        Authorization:
+          "Basic " +
+          Buffer.from(
+            `${process.env.DROPBOX_APP_KEY}:${process.env.DROPBOX_APP_SECRET}`
+          ).toString("base64"),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: process.env.DROPBOX_REFRESH_TOKEN,
+      }),
+    });
+
+    const tokenData = await tokenRes.json();
+
+    if (!tokenRes.ok || !tokenData.access_token) {
+      console.error("Failed to refresh token: ", tokenData);
+      return { statusCode: 500, body: "Failed to refresh Dropbox Token" };
+    }
+
+    accessToken = tokenData.access_token;
+  } catch (error) {
+    console.error("Token exchange failed: ", error);
+    return { statusCode: 500, body: "Token exchange failed" };
+  }
+
+  // const dbx = new Dropbox({
+  //   clientId: process.env.DROPBOX_APP_KEY,
+  //   clientSecret: process.env.DROPBOX_APP_SECRET,
+  //   refreshToken: process.env.DROPBOX_REFRESH_TOKEN,
+  //   fetch,
+  // });
+
+  const dbx = new Dropbox({ accessToken, fetch });
 
   try {
     for (let file of files) {
