@@ -14,11 +14,13 @@ fileUpload.addEventListener("change", (event) => {
       wrapper.style.flexDirection = "column";
       wrapper.style.alignItems = "flex-start";
       wrapper.style.margin = "0.5rem";
+      wrapper.style.width = "100%";
       const imageItemWrapper = document.createElement("div");
       imageItemWrapper.style.display = "flex";
       imageItemWrapper.style.flexDirection = "row";
       imageItemWrapper.style.alignItems = "center";
       const image = document.createElement("img");
+      image.classList.add("thumbnail");
       image.style.maxWidth = "150px";
       const button = document.createElement("button");
       button.textContent = "✕";

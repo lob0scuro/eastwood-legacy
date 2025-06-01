@@ -152,4 +152,7 @@ form button[type="submit"]:active {
   form {
     width: 80%;
   }
+  img.thumbnail {
+    width: 80px;
+  }
 }
