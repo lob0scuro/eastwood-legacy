@@ -118,12 +118,12 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     body: JSON.stringify({ name, files: fileData }),
   });
 
-  const data = await result.json();
-
   if (result.ok) {
     alert("Upload Successful");
     fileInput.value = "";
+    allFiles = [];
+    window.location.href = "success.html";
   } else {
-    alert("Uplaod failed.");
+    alert("Upload failed.");
   }
 });
