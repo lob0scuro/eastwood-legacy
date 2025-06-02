@@ -4,12 +4,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const handler = async (event) => {
-  console.log("ENV:", {
-    appKey: process.env.DROPBOX_APP_KEY,
-    appSecretLength: process.env.DROPBOX_APP_SECRET?.length,
-    refreshTokenLength: process.env.DROPBOX_REFRESH_TOKEN?.length,
-  });
-  console.log("Starting...");
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
@@ -50,17 +44,6 @@ export const handler = async (event) => {
     console.error("Token exchange failed: ", error);
     return { statusCode: 500, body: "Token exchange failed" };
   }
-
-  // const dbx = new Dropbox({
-  //   clientId: process.env.DROPBOX_APP_KEY,
-  //   clientSecret: process.env.DROPBOX_APP_SECRET,
-  //   refreshToken: process.env.DROPBOX_REFRESH_TOKEN,
-  //   fetch,
-  // });
-
-  // console.log("App key: ", process.env.DROPBOX_APP_KEY);
-  // console.log("App Secret: ", process.env.DROPBOX_APP_SECRET);
-  // console.log("App Token: ", process.env.DROPBOX_REFRESH_TOKEN);
 
   const dbx = new Dropbox({ accessToken, fetch });
 
