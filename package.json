@@ -19,6 +19,7 @@
   "description": "",
   "dependencies": {
     "@netlify/functions": "^4.0.0",
+    "dotenv": "^16.5.0",
     "dropbox": "^10.34.0"
   }
 }

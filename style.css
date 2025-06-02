@@ -39,9 +39,8 @@ h1 {
 }
 
 .salutations {
-  margin-top: 18px;
+  margin-top: 1rem;
   text-align: center;
-  font-size: 14px;
   width: 80%;
 }
 
@@ -55,19 +54,20 @@ form {
   flex-direction: column;
   gap: 1.2rem;
   align-items: center;
-  padding: 1rem;
+  padding: 1rem 3rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px #888;
-  width: 60vw;
+  width: fit-content;
   background-color: var(--brown);
   color: var(--white);
 }
 
 form div {
-  width: 80%;
+  width: fit-content;
   text-align: start;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 4px;
 }
 
@@ -155,7 +155,17 @@ form button[type="submit"]:active {
   form {
     width: 80%;
   }
+  form div {
+    align-items: flex-start;
+  }
   img.thumbnail {
     width: 80px;
+  }
+
+  .salutations {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 12px;
+    width: 80%;
   }
 }

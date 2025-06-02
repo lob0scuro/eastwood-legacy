@@ -1,11 +1,18 @@
 let allFiles = [];
 
+const MAX_FILE_SIZE_MB = 10;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
 const fileUpload = document.getElementById("photo");
 const preview = document.getElementById("preview");
 
 fileUpload.addEventListener("change", (event) => {
   const files = event.target.files;
   for (const file of files) {
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      alert(`${file.name} is too large. Max size is ${MAX_FILE_SIZE_MB}`);
+      continue;
+    }
     allFiles.push(file);
     if (file.type.startsWith("image/")) {
       const reader = new FileReader();
@@ -14,7 +21,7 @@ fileUpload.addEventListener("change", (event) => {
       wrapper.style.flexDirection = "column";
       wrapper.style.alignItems = "flex-start";
       wrapper.style.margin = "0.5rem";
-      wrapper.style.width = "100%";
+      wrapper.style.width = "fit-content";
       const imageItemWrapper = document.createElement("div");
       imageItemWrapper.style.display = "flex";
       imageItemWrapper.style.flexDirection = "row";
@@ -50,8 +57,6 @@ fileUpload.addEventListener("change", (event) => {
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  console.log(allFiles);
 
   const name = document.querySelector('input[name="name"]').value;
   const email = document.querySelector('input[type="email"]').value;
