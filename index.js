@@ -14,6 +14,10 @@ fileUpload.addEventListener("change", (event) => {
       alert(`${file.name} is too large. Max size is ${MAX_FILE_SIZE_MB}`);
       continue;
     }
+    if (allFiles.length > 4) {
+      alert("You can only upload up to 5 images at a time.");
+      continue;
+    }
     allFiles.push(file);
     if (file.type.startsWith("image/") || file.type.startsWith("video/")) {
       const reader = new FileReader();
