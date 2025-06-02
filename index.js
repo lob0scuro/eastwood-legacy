@@ -65,6 +65,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
   if (!name) {
     alert("Please enter your name so we can know who sent in this photo.");
+    loading.style.display = "none";
     return;
   }
 
@@ -106,6 +107,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     }
   } catch (error) {
     alert("An error occured during upload. Please try again.");
+
     console.error(error);
   } finally {
     loading.style.display = "none";
