@@ -30,6 +30,7 @@ body {
   align-items: center;
   justify-content: center;
   font-family: var(--mainFont);
+  margin-bottom: 4rem;
 }
 
 h1 {
@@ -37,12 +38,19 @@ h1 {
   font-family: var(--secondaryFont);
 }
 
+.salutations {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 14px;
+  width: 80%;
+}
+
 .golden {
   color: var(--deepGold);
 }
 
 form {
-  margin-top: 2rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -61,12 +69,6 @@ form div {
   display: flex;
   flex-direction: column;
   gap: 4px;
-}
-
-form > h3 {
-  font-size: 16px;
-  font-style: italic;
-  font-weight: 100;
 }
 
 form div input {
@@ -132,6 +134,7 @@ form button[type="submit"]:active {
 
 .success-header {
   font-size: 32px;
+  text-align: center;
 }
 
 .success-block {
