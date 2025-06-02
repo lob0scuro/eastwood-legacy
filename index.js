@@ -14,7 +14,7 @@ fileUpload.addEventListener("change", (event) => {
       continue;
     }
     allFiles.push(file);
-    if (file.type.startsWith("image/")) {
+    if (file.type.startsWith("image/") || file.type.startsWith("video/")) {
       const reader = new FileReader();
       const wrapper = document.createElement("div");
       wrapper.style.display = "flex";
