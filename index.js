@@ -5,6 +5,7 @@ const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 const fileUpload = document.getElementById("photo");
 const preview = document.getElementById("preview");
+const loading = document.getElementById("loading-screen");
 
 fileUpload.addEventListener("change", (event) => {
   const files = event.target.files;
@@ -57,6 +58,7 @@ fileUpload.addEventListener("change", (event) => {
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
+  loading.style.display = "flex";
 
   const name = document.querySelector('input[name="name"]').value;
   const email = document.querySelector('input[type="email"]').value;
@@ -105,5 +107,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   } catch (error) {
     alert("An error occured during upload. Please try again.");
     console.error(error);
+  } finally {
+    loading.style.display = "none";
   }
 });

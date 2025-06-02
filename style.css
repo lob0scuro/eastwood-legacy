@@ -31,6 +31,7 @@ body {
   justify-content: center;
   font-family: var(--mainFont);
   margin-bottom: 4rem;
+  position: relative;
 }
 
 h1 {
@@ -145,6 +146,36 @@ form button[type="submit"]:active {
   gap: 14px;
   width: 60%;
   text-align: center;
+}
+
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  display: none;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 6px solid #ccc;
+  border-top: 6px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 450px) {
