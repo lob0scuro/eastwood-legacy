@@ -21,3 +21,4 @@ Thumbs.db
 # Optional: VS Code settings
 .vscode/
 
+legacyAPIKey.json

@@ -6,6 +6,12 @@ const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 const fileUpload = document.getElementById("photo");
 const preview = document.getElementById("preview");
 const loading = document.getElementById("loading-screen");
+const submitButton = document.getElementById("submit-button");
+
+window.addEventListener("load", () => {
+  submitButton.disabled = true;
+  allFiles = [];
+});
 
 fileUpload.addEventListener("change", (event) => {
   const files = event.target.files;
@@ -19,6 +25,9 @@ fileUpload.addEventListener("change", (event) => {
       continue;
     }
     allFiles.push(file);
+    if (allFiles.length > 0) {
+      submitButton.disabled = false;
+    }
     if (file.type.startsWith("image/") || file.type.startsWith("video/")) {
       const reader = new FileReader();
       const wrapper = document.createElement("div");
@@ -44,6 +53,10 @@ fileUpload.addEventListener("change", (event) => {
       button.addEventListener("click", () => {
         allFiles = allFiles.filter((f) => f !== file);
         preview.removeChild(wrapper);
+
+        if (allFiles.length === 0) {
+          submitButton.disabled = true;
+        }
       });
 
       reader.onload = (e) => {
@@ -95,24 +108,36 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   );
 
   try {
-    const result = await fetch("/.netlify/functions/upload", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, files }),
-    });
+    const [sheetResult, uploadResult] = await Promise.all([
+      fetch("/.netlify/functions/sheet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email }),
+      }),
+      fetch("/.netlify/functions/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, files }),
+      }),
+    ]);
 
-    if (result.ok) {
-      allFiles = [];
-      window.location.href = "success.html";
-    } else {
-      alert("Upload failed, please try again.");
+    if (!sheetResult.ok) {
+      throw new Error("Sheet upload failed.");
     }
-  } catch (error) {
-    alert("An error occured during upload. Please try again.");
+    if (!uploadResult.ok) {
+      throw new Error("File upload failed.");
+    }
 
-    console.error(error);
+    allFiles = [];
+    preview.innerHTML = "";
+    window.location.href = "success.html";
+  } catch (error) {
+    alert("Submission failed, please try again.");
+    console.error("Error: ", error.message);
   } finally {
     loading.style.display = "none";
   }
