@@ -56,9 +56,9 @@ form {
   gap: 1.2rem;
   align-items: center;
   padding: 1rem 3rem;
-  border-radius: 12px;
+  /* border-radius: 12px; */
   box-shadow: 0 4px 6px #888;
-  width: fit-content;
+  width: 100%;
   background-color: var(--brown);
   color: var(--white);
 }

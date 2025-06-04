@@ -5,6 +5,8 @@ const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 const fileUpload = document.getElementById("photo");
 const preview = document.getElementById("preview");
+preview.style.maxHeight = "200px";
+preview.style.overflowY = "auto";
 const loading = document.getElementById("loading-screen");
 const submitButton = document.getElementById("submit-button");
 
