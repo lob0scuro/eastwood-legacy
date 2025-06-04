@@ -49,9 +49,10 @@ fileUpload.addEventListener("change", (event) => {
       button.textContent = "✕";
       button.style.backgroundColor = "#831313";
       button.style.color = "#f9f9f9";
-      button.style.borderRadius = "8px";
+      button.style.borderRadius = "4px";
       button.style.width = "24px";
       button.style.height = "24px";
+      button.style.border = "none";
       button.addEventListener("click", () => {
         allFiles = allFiles.filter((f) => f !== file);
         preview.removeChild(wrapper);
