@@ -22,7 +22,8 @@ img.logo {
   width: 12rem;
 }
 
-body {
+body,
+html {
   width: 100vw;
   height: 100dvh;
   display: flex;
@@ -30,7 +31,7 @@ body {
   align-items: center;
   justify-content: center;
   font-family: var(--mainFont);
-  margin-bottom: 4rem;
+  margin-block: 4rem;
   position: relative;
 }
 
