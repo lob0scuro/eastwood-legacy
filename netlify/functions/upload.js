@@ -1,4 +1,5 @@
 import { Dropbox } from "dropbox";
+import fetch from "isomorphic-fetch";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -45,19 +46,38 @@ export const handler = async (event) => {
     return { statusCode: 500, body: "Token exchange failed" };
   }
 
-  const dbx = new Dropbox({ accessToken, fetch });
+  // Trying API directly
 
   try {
     for (let file of files) {
       const content = Buffer.from(file.content, "base64");
-      await dbx.filesUpload({
-        path: `/legacy-uploads/${name || "anonymous"}-${file.filename}`,
-        contents: content,
+      const filePath = `/legacy-uploads/${name || "anonymous"}-${
+        file.filename
+      }`;
+
+      const res = await fetch("https://content.dropboxapi.com/2/files/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Dropbox-API-Arg": JSON.stringify({
+            path: filePath,
+            mode: { ".tag": "add" },
+            autorename: true,
+            mute: false,
+          }),
+          "Content-Type": "application/octet-stream",
+        },
+        body: content,
       });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Dropbox upload failed: ${res.status} ${errText}`);
+      }
     }
     return { statusCode: 200, body: "Upload successful" };
   } catch (error) {
-    console.log("This is the error foo: ", error);
+    console.error("This is the error foo: ", error);
     return { statusCode: 500, body: "Upload failed" };
   }
 };

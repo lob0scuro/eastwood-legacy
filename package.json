@@ -23,6 +23,7 @@
     "dropbox": "^10.34.0",
     "fs": "^0.0.1-security",
     "google-auth-library": "^9.15.1",
-    "googleapis": "^149.0.0"
+    "googleapis": "^149.0.0",
+    "isomorphic-fetch": "^3.0.0"
   }
 }
