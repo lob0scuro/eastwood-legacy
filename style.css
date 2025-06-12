@@ -32,7 +32,6 @@ html {
   justify-content: center;
   font-family: var(--mainFont);
   margin-block: 4rem;
-  position: relative;
 }
 
 h1 {
@@ -191,6 +190,11 @@ form button[type="submit"]:active {
 }
 
 @media screen and (max-width: 450px) {
+  body,
+  html {
+    height: auto;
+    margin-top: 2rem;
+  }
   h1 {
     font-size: 18px;
   }
