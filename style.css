@@ -98,7 +98,12 @@ form div input {
   border-radius: 8px;
   border: none;
   font-size: 18px;
-  padding-left: 5px;
+  padding: 5px;
+  box-shadow: -3px 3px 5px var(--black);
+}
+
+form div input:focus {
+  border: 4px inset var(--deepGold);
 }
 
 h3#info-header {
